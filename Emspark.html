@@ -39,6 +39,25 @@
     .logo-title {
       font-family: 'Rubik Mono One', sans-serif;
     }
+    .translate-x-8 {
+  transform: translateX(2rem);
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
   </style>
 </head>
 
@@ -47,60 +66,74 @@
 
   <header class="text-center mb-12">
     <img src="./logo.png" alt="Em'Spark Logo" class="mx-auto mb-4 w-28 h-28 drop-shadow-xl">
-    <div class="flex justify-end">
+    <div class="flex justify-end items-center gap-4">
+      <!-- 👇 Le bouton Discord -->
+      <a href="https://discord.com/channels/1351189337944887316/1351189337944887319" target="_blank"
+      class="w-11 h-11 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg hover:shadow-[0_0_15px_4px_rgba(99,102,241,0.8)] transition duration-300"
+      title="Rejoindre le Discord">
+     <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord"
+          class="w-6 h-6 filter drop-shadow-md">
+   </a>
+   
+    
+      <!-- 🌙 Le bouton Mode sombre -->
       <button onclick="toggleDarkMode()" class="bg-black text-white px-4 py-2 rounded shadow hover:bg-gray-800 transition">
         🌓 Mode sombre
       </button>
     </div>
-
-    
-      <h1 class="text-5xl logo-title tracking-wide text-black">EM’SPARK</h1>
-      <p class="text-xl mt-2 text-orange-700 italic">Crée des connexions authentiques autour de tes passions ✨</p>
-
+  
+    <h1 class="text-5xl logo-title tracking-wide text-black">EM’SPARK</h1>
+    <p class="text-xl mt-2 text-orange-700 italic">Crée des connexions authentiques autour de tes passions ✨</p>
+  </header>
+  
   <main class="max-w-6xl mx-auto flex-grow">
     <nav class="flex flex-wrap justify-center gap-4 my-10">
       <a href="#calendar" onclick="showTab('calendar')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">📅 Calendrier</a>
-      <a href="#passions" onclick="showTab('passions')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">🎯 Passions</a>
       <a href="#chat" onclick="showTab('chat')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">💬 Discussions</a>
       <a href="#profile" onclick="showTab('profile')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">👤 Profil</a>
     </nav>
+      
+        <section id="calendar" class="fade show text-black">
+          <h2 class="text-4xl font-bold mb-6 text-center">📅 Calendrier des Événements</h2>
+      
+          <!-- Barre de filtres -->
+          <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-6">
+            <select id="passionSelect" onchange="filterCalendarByPassion()" class="text-black px-4 py-2 rounded w-64">
+              <option value="">-- Toutes les passions --</option>
+              <option value="Voyage">✈️ Voyage</option>
+              <option value="Investissement-Finance">💰 Investissement-Finance</option>
+              <option value="Arts">🎨 Arts-Musique</option>
+              <option value="Cuisine">👨‍🍳 Cuisine-Gastronomie</option>
+              <option value="Mode">👗 Mode-Style</option>
+              <option value="Yoga">🧘‍♂️ Yoga-Méditation</option>
+              <option value="Jeux">🎮 JeuxVidéo</option>
+              <option value="Jeux d'argent">🎲 Jeux d'argent</option>
+              <option value="Développement">🤯 Développement personnel</option>
+              <option value="Ecriture">✏️ Ecriture</option>
+              <option value="Soirée">🎉 Soirée</option>
+              <option value="Lecture">📚 Lecture</option>
+              <option value="Sport">⚽ Sport</option>
+              <option value="Startup">📈 Business-Startups</option>
+              <option value="Danse">💃 Danse</option>
+              <option value="Cinéma">🍿 Cinéma</option>
+              <option value="Photographie">📸 Photographie</option>
+            </select>
+          
+            <div class="flex items-center gap-3">
+              <span class="text-black font-medium">Trier :</span>
+              <button onclick="toggleSortOrder()" class="relative w-16 h-8 bg-gray-300 rounded-full shadow-inner transition duration-300 focus:outline-none" id="sortButton">
+                <span id="sortCircle" class="absolute left-1 top-1 bg-white w-6 h-6 rounded-full shadow-md transition duration-300"></span>
+              </button>
+              <span id="sortLabel" class="text-sm font-medium text-black">Prochains d'abord</span>
+            </div>
+          </div>
+          
+      
+          <!-- Résultats -->
+          <div id="calendar-events" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+      
 
-    <section id="calendar" class="fade hidden text-black">
-      <h2 class="text-4xl font-bold mb-6 text-center">📅 Calendrier des Événements</h2>
-      <div class="flex justify-center mb-4">
-        <button onclick="toggleSortOrder()" class="bg-orange-600 text-white px-4 py-2 rounded">
-          Trier : <span id="sort-label">Prochains d'abord</span>
-        </button>
-      </div>
-      <div id="calendar-events" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </section>
-
-    <section id="passions" class="fade hidden text-black">
-      <h2 class="text-4xl font-bold mb-6 text-center">🎯 Activités par Passion</h2>
-      <div class="text-center mb-4">
-        <select id="passionSelect" onchange="filterByPassion()" class="text-black px-4 py-2 rounded">
-          <option value="">-- Choisir une passion --</option>
-          <option value="Voyage">✈️ Voyage</option>
-          <option value="Investissement-Finance">💰 Investissement-Finance</option>
-          <option value="Arts">🎨 Arts-Musique</option>
-          <option value="Cuisine">👨‍🍳 Cuisine-Gastronomie</option>
-          <option value="Mode">👗 Mode-Style</option>
-          <option value="Yoga">🧘‍♂️ Yoga-Méditation</option>
-          <option value="Jeux">🎮 JeuxVidéo</option>
-          <option value="Jeux d'argent">🎲 Jeux d'argent</option>
-          <option value="Développement">🤯 Développement personnel</option>
-          <option value="Ecriture">✏️ Ecriture</option>
-          <option value="Soirée">🎉 Soirée</option>
-          <option value="Lecture">📚 Lecture</option>
-          <option value="Sport">⚽ Sport</option>
-          <option value="Startup">📈 Business-Startups</option>
-          <option value="Danse">💃 Danse</option>
-          <option value="Cinéma">🍿 Cinéma</option>
-          <option value="Photographie">📸 Photographie</option>
-        </select>
-      </div>
-      <div id="filtered-events" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </section>
 
     <section id="chat" class="fade hidden text-black">
       <h2 class="text-4xl font-bold mb-6 text-center">💬 Discussions par Passion</h2>
@@ -142,9 +175,13 @@
     <section id="profile" class="fade hidden text-black">
       <h2 class="text-4xl font-bold mb-6 text-center">👤 Mon Profil</h2>
       <div class="bg-white text-black p-6 rounded shadow max-w-md mx-auto">
-        <p class="text-lg">Bienvenue sur EM'SPARK !</p>
-        <p class="text-sm text-gray-600">Voici ta passion favorite :</p>
-        <p id="favoritePassion" class="text-xl font-semibold text-orange-600 mt-2">Chargement...</p>
+        <p class="text-lg font-bold">Connecté en tant que : <span id="userName">...</span></p>
+        <p class="mt-4 text-sm text-gray-600">Évènements en favori :</p>
+        <p id="favoritePassion" class="text-orange-600 font-semibold mt-1">Chargement...</p>
+    
+        <button onclick="logout()" class="mt-6 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+          🚪 Se déconnecter
+        </button>
       </div>
     </section>
   </main>
@@ -191,17 +228,29 @@
       "Cinéma": ["Yohan : Avant-première ce soir", "Zoé : Nolan ?"],
       "Photographie": ["Jade : Expo demain 📸", "Ben : Modèles pour projet"]
     };
+    const usersKey = "emsparkUsers";
+const activeUserKey = "activeEmsparkUser";
 
+function getUsers() {
+  return JSON.parse(localStorage.getItem(usersKey)) || [];
+}
+function saveUsers(users) {
+  localStorage.setItem(usersKey, JSON.stringify(users));
+}
+function getActiveUser() {
+  const username = localStorage.getItem(activeUserKey);
+  return getUsers().find(u => u.username === username);
+}
     let sortByUpcoming = true;
     let currentChat = "";
 
     function initializeApp() {
-      showTab('calendar');
-      renderCalendarEvents();
-    }
+  showTab('calendar');
+  renderCalendarEvents();
+}
 
     function showTab(tabId) {
-      ['calendar', 'passions', 'chat', 'profile'].forEach(id => {
+      ['calendar', 'chat', 'profile'].forEach(id => {
         const tab = document.getElementById(id);
         tab.classList.add('hidden');
         tab.classList.remove('show');
@@ -213,24 +262,51 @@
     }
 
     function toggleSortOrder() {
-      sortByUpcoming = !sortByUpcoming;
-      document.getElementById("sort-label").innerText = sortByUpcoming ? "Prochains d'abord" : "Chronologie inversée";
-      renderCalendarEvents();
-    }
+  sortByUpcoming = !sortByUpcoming;
+
+  // Changement de texte
+  document.getElementById("sortLabel").innerText = sortByUpcoming
+    ? "Prochains d'abord"
+    : "Les plus loins d'abord";
+
+  // Animation du cercle du toggle
+  const circle = document.getElementById("sortCircle");
+  if (sortByUpcoming) {
+    circle.classList.remove("translate-x-8");
+  } else {
+    circle.classList.add("translate-x-8");
+  }
+
+  renderCalendarEvents();
+}
 
     function renderCalendarEvents() {
-      const container = document.getElementById("calendar-events");
-      const favs = getFavorites();
-      const sorted = [...allEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
-      container.innerHTML = sorted.map(e => `
-        <div class="bg-white text-black rounded-2xl shadow p-5 relative transition transform hover:scale-105 hover:shadow-lg">
-          <h3 class="text-xl font-semibold mb-1">${e.passion} — ${e.label}</h3>
-          <p class="text-sm text-gray-600">${e.date} — ${e.price}</p>
-          <button onclick="toggleFavorite('${eIndex(e)}')" class="absolute top-3 right-3 text-xl">
-            ${favs.includes(eIndex(e)) ? '💖' : '🤍'}
-          </button>
-        </div>`).join('');
-    }
+  const container = document.getElementById("calendar-events");
+  const favs = getFavorites();
+  const selectedPassion = document.getElementById("passionSelect")?.value || "";
+
+  const sorted = [...allEvents]
+    .filter(e => selectedPassion === "" || e.passion === selectedPassion)
+    .sort((a, b) =>
+      sortByUpcoming
+        ? new Date(a.date) - new Date(b.date)
+        : new Date(b.date) - new Date(a.date)
+    );
+
+  container.innerHTML = sorted.length > 0
+    ? sorted.map(e => `
+      <div class="bg-white text-black rounded-2xl shadow p-5 relative transition transform hover:scale-105 hover:shadow-lg">
+        <h3 class="text-xl font-semibold mb-1">${e.passion} — ${e.label}</h3>
+        <p class="text-sm text-gray-600">${e.date} — ${e.price}</p>
+        <button onclick="toggleFavorite('${eIndex(e)}')" class="absolute top-3 right-3 text-xl">
+          ${favs.includes(eIndex(e)) ? '💖' : '🤍'}
+        </button>
+      </div>`).join('')
+    : '<p class="text-center w-full">Aucun événement pour cette passion.</p>';
+}
+function filterCalendarByPassion() {
+  renderCalendarEvents();
+}
 
     function eIndex(e) {
       return `${e.passion}-${e.label}`;
@@ -245,58 +321,64 @@
   };
   return emojis[passion] || "✨";
 }
-    function getFavorites() {
-      return JSON.parse(localStorage.getItem("favoriteEvents")) || [];
-    }
+function getFavorites() {
+  const user = getActiveUser();
+  return user?.favorites || [];
+}
 
-    function toggleFavorite(id) {
-      let favs = getFavorites();
-      favs.includes(id) ? favs = favs.filter(f => f !== id) : favs.push(id);
-      localStorage.setItem("favoriteEvents", JSON.stringify(favs));
-      renderCalendarEvents();
-    }
+function toggleFavorite(id) {
+  const users = getUsers();
+  const user = getActiveUser();
+  if (!user) return;
 
-    function filterByPassion() {
-      const value = document.getElementById("passionSelect").value;
-      const zone = document.getElementById("filtered-events");
-      const result = allEvents.filter(e => e.passion === value);
-      localStorage.setItem("favoritePassion", value);
-      zone.innerHTML = result.length
-        ? result.map(e => `
-          <div class="bg-white text-black rounded-2xl shadow p-5">
-            <h3 class="text-xl font-semibold mb-1">${emojiForPassion(e.passion)} ${e.passion} — ${e.label}</h3>
-            <p class="text-sm text-gray-600">${e.date} — ${e.price}</p>
-          </div>`).join('')
-        : '<p class="text-center w-full">Aucun événement trouvé pour cette passion.</p>';
-    }
+  const favs = user.favorites || [];
+  const index = favs.indexOf(id);
+  index === -1 ? favs.push(id) : favs.splice(index, 1);
 
-    function loadFavoritePassion() {
-      const fav = localStorage.getItem("favoritePassion") || "Non définie";
-      document.getElementById("favoritePassion").textContent = fav !== "" ? fav : "Non définie";
-    }
+  const updatedUsers = users.map(u =>
+    u.username === user.username ? { ...u, favorites: favs } : u
+  );
+  saveUsers(updatedUsers);
+  renderCalendarEvents();
+}
 
-    function loadChat() {
-      const value = document.getElementById("chatSelect").value;
-      const box = document.getElementById("chatBox");
-      const form = document.getElementById("chatFormContainer");
-      currentChat = value;
+function loadFavoritePassion() {
+  const user = getActiveUser();
+  document.getElementById("favoritePassion").textContent = user?.favorites?.join(", ") || "Aucune passion favorite";
+  document.getElementById("userName").textContent = user?.username || "Utilisateur inconnu";
+}
 
-      if (!value || !chatMessages[value]) {
-        box.innerHTML = `<p class="text-center text-gray-500">Sélectionne une passion pour afficher le chat correspondant.</p>`;
-        form.classList.add("hidden");
-        return;
-      }
+function loadChat() {
+  const value = document.getElementById("chatSelect").value;
+  const box = document.getElementById("chatBox");
+  const form = document.getElementById("chatFormContainer");
+  currentChat = value;
 
-      const messages = chatMessages[value];
-      box.innerHTML = messages.length > 0
-        ? messages.map(msg => {
-            const [name, text] = msg.split(" : ");
-            return `<p><strong class="text-orange-600">${name}</strong> : ${text}</p>`;
-          }).join('')
-        : `<p class="text-center text-gray-500">Aucun message pour cette passion. Lance la discussion !</p>`;
+  if (!value || !chatMessages[value]) {
+    box.innerHTML = `<p class="text-center text-gray-500">Sélectionne une passion pour afficher le chat correspondant.</p>`;
+    form.classList.add("hidden");
+    return;
+  }
 
-      form.classList.remove("hidden");
-    }
+  const messages = chatMessages[value];
+  box.innerHTML = messages.length > 0
+    ? messages.map(msg => {
+        const [name, text] = msg.split(" : ");
+        const isYou = name.trim().toLowerCase() === "toi";
+        return `
+          <div class="flex ${isYou ? 'justify-end' : 'justify-start'} animate-slide-in">
+            <div class="max-w-xs rounded-xl px-4 py-2 mb-2 shadow 
+              ${isYou ? 'bg-orange-100 text-orange-900' : 'bg-gray-100 text-gray-800'}">
+              <p class="text-xs font-semibold mb-1">${name}</p>
+              <p>${text}</p>
+            </div>
+          </div>
+        `;
+      }).join('')
+    : `<p class="text-center text-gray-500">Aucun message pour cette passion. Lance la discussion !</p>`;
+
+  form.classList.remove("hidden");
+}
 
     function sendMessage(e) {
       e.preventDefault();
@@ -339,7 +421,10 @@
 }, // ← il manquait cette virgule ici pour séparer les objets
   retina_detect: true
 });
-
+function logout() {
+  localStorage.removeItem(activeUserKey);
+  window.location.href = "login.html";
+}
 </script>
 <script>
   function toggleDarkMode() {
