@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Créer un compte – EM'SPARK</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #93c5fd, #3b82f6);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="bg-white shadow-lg rounded-xl p-8 max-w-sm w-full z-10 text-center">
+      <img src="logo.png" alt="Logo EM'SPARK" class="mx-auto w-20 h-20 mb-4 drop-shadow-lg">
+      <h1 class="text-3xl font-bold text-blue-600 mb-6">Créer un compte</h1>
+
+      <form onsubmit="event.preventDefault(); handleRegister()" class="space-y-4 text-left">
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Nom d'utilisateur</label>
+          <input type="text" id="regUsername" class="w-full border border-gray-300 rounded px-4 py-2" placeholder="Nom d'utilisateur" required>
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Mot de passe</label>
+          <input type="password" id="regPassword" class="w-full border border-gray-300 rounded px-4 py-2" placeholder="Mot de passe" required>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Créer mon compte</button>
+      </form>
+
+      <p class="text-sm mt-4 text-gray-600">
+        Déjà inscrit ? <a href="login.html" class="text-blue-600 font-semibold hover:underline">Se connecter</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60 },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 100,
+          color: "#ffffff",
+          opacity: 0.4,
+          width: 1
+        },
+        move: { enable: true, speed: 1.2 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+
+    function handleRegister() {
+      const username = document.getElementById("regUsername").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const users = JSON.parse(localStorage.getItem("emsparkUsers")) || [];
+
+      if (users.find(u => u.username === username)) {
+        alert("Ce nom d'utilisateur existe déjà !");
+        return;
+      }
+
+      users.push({ username, password, favorites: [] });
+      localStorage.setItem("emsparkUsers", JSON.stringify(users));
+      localStorage.setItem("activeEmsparkUser", username);
+      alert("Compte créé avec succès !");
+      window.location.href = "Emspark.html";
+    }
+  </script>
+</body>
+</html>
