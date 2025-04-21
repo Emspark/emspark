@@ -61,7 +61,7 @@
   </style>
 </head>
 
-<body onload="initializeApp()" class="text-white p-6 flex flex-col min-h-screen justify-between">
+<body onload="initializeApp()" class="p-4 sm:p-6 text-white flex flex-col min-h-screen justify-between">
   <div id="particles-js"></div>
 
   <header class="text-center mb-12">
@@ -82,19 +82,22 @@
       </button>
     </div>
   
-    <h1 class="text-5xl logo-title tracking-wide text-black">EM’SPARK</h1>
-    <p class="text-xl mt-2 text-orange-700 italic">Crée des connexions authentiques autour de tes passions ✨</p>
+    <h1 class="text-4xl sm:text-5xl logo-title tracking-wide text-black text-center px-4">EM’SPARK</h1>
+    <p class="text-lg sm:text-xl mt-2 text-orange-700 italic text-center px-4">
+      Crée des connexions authentiques autour de tes passions ✨
+    </p>
+    
   </header>
   
   <main class="max-w-6xl mx-auto flex-grow">
-    <nav class="flex flex-wrap justify-center gap-4 my-10">
+    <nav class="flex flex-wrap justify-center gap-4 my-10 flex-col sm:flex-row items-center">
       <a href="#calendar" onclick="showTab('calendar')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">📅 Calendrier</a>
       <a href="#chat" onclick="showTab('chat')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">💬 Discussions</a>
       <a href="#profile" onclick="showTab('profile')" class="bg-white text-black rounded-full px-5 py-2 font-semibold shadow hover:bg-orange-300 transition">👤 Profil</a>
     </nav>
       
         <section id="calendar" class="fade show text-black">
-          <h2 class="text-4xl font-bold mb-6 text-center">📅 Calendrier des Événements</h2>
+          <h2 class="text-2xl sm:text-4xl font-bold mb-6 text-center">📅 Calendrier des Événements</h2>
       
           <!-- Barre de filtres -->
           <div class="flex flex-col md:flex-row justify-center items-center gap-6 mb-6">
@@ -130,13 +133,14 @@
           
       
           <!-- Résultats -->
-          <div id="calendar-events" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+          <div id="calendar-events" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2"></div>
+
         </section>
       
 
 
     <section id="chat" class="fade hidden text-black">
-      <h2 class="text-4xl font-bold mb-6 text-center">💬 Discussions par Passion</h2>
+      <h2 class="text-2xl sm:text-4xl font-bold mb-6 text-center">💬 Discussions par Passion</h2>
       <div class="text-center mb-6">
         <select id="chatSelect" onchange="loadChat()" class="text-black px-4 py-2 rounded shadow">
           <option value="">-- Choisir une passion --</option>
@@ -173,7 +177,7 @@
     </section>
 
     <section id="profile" class="fade hidden text-black">
-      <h2 class="text-4xl font-bold mb-6 text-center">👤 Mon Profil</h2>
+      <h2 class="text-2xl sm:text-4xl font-bold mb-6 text-center">
       <div class="bg-white text-black p-6 rounded shadow max-w-md mx-auto">
         <p class="text-lg font-bold">Connecté en tant que : <span id="userName">...</span></p>
         <p class="mt-4 text-sm text-gray-600">Évènements en favori :</p>
@@ -411,7 +415,7 @@ function getActiveUser() {
     <div data-event-index="${allEvents.indexOf(e)}"
      onclick="handleOpenEventClick(event)"
          class="cursor-pointer bg-white text-black rounded-2xl shadow p-5 relative transition transform hover:scale-105 hover:shadow-lg">
-      <h3 class="text-xl font-semibold mb-1">${e.passion} — ${e.label}</h3>
+      <h3 class="text-lg sm:text-xl font-semibold mb-1">${e.passion} — ${e.label}</h3>
       <p class="text-sm text-gray-600">${e.date} — ${e.price}</p>
     </div>
   `).join('')
@@ -592,7 +596,7 @@ function toggleFavoriteFromModal() {
 </script>
 <!-- 🔽 MODALE DE L'ÉVÉNEMENT 🔽 -->
 <div id="eventModal" class="fixed inset-0 z-50 bg-black bg-opacity-60 hidden flex items-center justify-center">
-  <div class="bg-white text-black p-6 rounded-3xl shadow-2xl max-w-md w-full relative transition-transform duration-300">
+  <div class="bg-white text-black p-6 rounded-xl shadow-lg w-[90%] max-w-md relative">
     
     <!-- ❌ Bouton de fermeture -->
     <button onclick="closeEventModal()" class="absolute top-3 right-4 text-gray-400 hover:text-red-500 text-2xl font-bold">×</button>
